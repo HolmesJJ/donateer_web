@@ -26,14 +26,14 @@
     </nav>
     <div class="grid col-12 p-8">
         <div class="col-7 grid mr-5">
-            <h4 class="text-3xl font-semibold col-12">My Progress</h4>
+            <h4 class="text-3xl font-semibold col-12">My Donateer Contributions</h4>
             <p-card class="col text-center mr-4">
                 <p class="font-semibold">{{totalHours}} hours</p>
-                <p>total volunteered</p>
+                <p>total donateered</p>
             </p-card>
             <p-card class="col text-center">
                 <p class="font-semibold">$ {{totalAmount}}</p>
-                <p>total donated</p>
+                <p>total donations generated</p>
             </p-card>
         </div>
         <div class="col-4 ml-8">
@@ -47,13 +47,17 @@
                             class="p-button-outlined p-button-rounded p-button-secondary w-8 text-xs ">
                         </a>
                     </div>
+                    <div *ngIf="!emailVerified" class="p-2">
+                        <a pButton pRipple type="button" label="Change password" (click)='changePassword()'
+                            class="p-button-outlined p-button-rounded p-button-secondary w-8 text-xs ">
+                        </a>
+                    </div>
+                    <small class="block" *ngIf="emailSent">Password Reset Email Sent!</small>
                     <div class="text-right p-3">
                         <a href=# (click)="authService.SignOut()" class="text-sm">Log out</a>
-
                     </div>
                 </ng-template>
             </p-card>
         </div>
     </div>
-
 </div>

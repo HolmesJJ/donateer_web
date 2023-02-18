@@ -23,6 +23,9 @@ export class EditProfileComponent implements OnInit {
   ngOnInit(): void {
     this.formInit()
     this.afAuth.authState.subscribe((user: any) => {
+      if (!user) {
+        this.router.navigate(['sign-in']);
+      }
       this.afs.collection(
         'Users'
       ).doc(user.uid).get().toPromise().then((x: any) => {

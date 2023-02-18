@@ -39,6 +39,9 @@ export class DonateComponent implements OnInit {
     //   });
     // });
     this.afAuth.authState.subscribe((user: any) => {
+      if (!user) {
+        this.router.navigate(['sign-in']);
+      }
       this.userData = user;
       console.log("USER DATA:", this.userData);
       this.existingDonations = this.afs.collection(

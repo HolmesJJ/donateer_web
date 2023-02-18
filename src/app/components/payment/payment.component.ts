@@ -27,6 +27,9 @@ export class PaymentComponent implements OnInit {
 
   async ngOnInit() {
     this.afAuth.authState.subscribe((user: any) => {
+      if (!user) {
+        this.router.navigate(['sign-in']);
+      }
       this.userData = user;
       this.existingDonations = this.afs.collection(
         'Users'

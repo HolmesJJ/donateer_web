@@ -100,12 +100,18 @@ export class AuthService {
 
   // edit profile
   EditProfile(displayName: string, income: string) {
-        return this.EditUserData(this.userData, displayName, income).then(() => {
-        this.router.navigate(['profile']);
-      });
-    }
+    return this.EditUserData(this.userData, displayName, income).then(() => {
+      this.router.navigate(['profile']);
+    });
+  }
 
-    
+  // change password
+  ChangePassword() {
+    return this.afAuth.sendPasswordResetEmail(this.userData.email).then(() => {
+      this.router.navigate(['profile']);
+    });
+  }
+
   // Returns true when user is looged in and email is verified
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user')!);

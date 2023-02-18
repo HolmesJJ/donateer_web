@@ -14,15 +14,21 @@ export class ProfileComponent implements OnInit {
   loaded = false;
   totalHours = 0;
   totalAmount = 0;
+  emailVerified: boolean = false;
+  emailSent: boolean = false;
   constructor(public authService: AuthService,  public afs: AngularFirestore, public afAuth: AngularFireAuth,
     public router: Router) { }
 
   ngOnInit(): void {
     this.afAuth.authState.subscribe((user: any) => {
+      if (!user) {
+        this.router.navigate(['sign-in']);
+      }
       this.afs.collection(
         'Users'
       ).doc(user.uid).get().toPromise().then((x: any) => {
         this.userData = x.data();
+        this.emailVerified = this.userData.emailVerified;
         console.log('userdata:', this.userData);
         if (this.userData.donations === null || this.userData.donations === undefined) {
           this.userData.donations = [];
@@ -36,6 +42,16 @@ export class ProfileComponent implements OnInit {
         this.loaded = true;
         console.log("User document", this.userData);
       });
+    });
+  }
+
+  changePassword() {
+    this.authService.ChangePassword().then(() => {
+      console.log("then block in change password component running")
+      this.emailSent = true;
+    }).catch((error) => {
+      console.log("catch block in change password component running");
+      console.log("Error:" , error);
     });
   }
 }
