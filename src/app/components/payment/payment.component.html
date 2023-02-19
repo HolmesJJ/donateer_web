@@ -28,17 +28,30 @@
             <div class="col-12">
                 <h4 class="text-4xl font-semibold">Payment Details</h4>
             </div>
+            <div class="row col-12">
+                <div class="col-6">
+                    <span>You have selected
+                    <br>
+                    Date: {{ donationDetails.date.toString().substring(0, 15) }}
+                    <br>
+                    Time: {{ donationDetails.start.toString().substring(16, 21) }} - {{ donationDetails.end.toString().substring(16, 21) }}
+                    <br><br>
+                    This corresponds to ${{ donationDetails.donatedAmount }}.
+                    </span>
+                </div>
+                <div class="col-6">
+                    <div>
+                        <a pButton type="button" label="Add to Calendar" class="text-white mb-3 text-xs w-50" (click)='addToCalendar()'></a>
+                    </div>
+                    <div>
+                        <a pButton type="button" label="Download Calendar" class="text-white text-xs w-50" (click)='downloadCalendar()'></a>
+                    </div>
+                </div>
+            </div>
             <div class="col-12 lg:col-10">
-                <span>You have selected
-                <br>
-                Date: {{ donationDetails.date.toString().substring(0, 15) }}
-                <br>
-                Time: {{ donationDetails.start.toString().substring(16, 21) }} - {{ donationDetails.end.toString().substring(16, 21) }}
-                <br><br>
-                This corresponds to ${{ donationDetails.donatedAmount }}.
-                <br><br><br><br>
-                Thank you for your donation and caring for our animal friends. Your kind donation will directly impact upon our operations in providing shelter, food, medical attention and love to
-                the rescued animals that walk through our doors each day.
+                <span>
+                    Thank you for your donation and caring for our animal friends.
+                    Your kind donation will directly impact upon our operations in providing shelter, food, medical attention and love to the rescued animals that walk through our doors each day.
                 </span>
             </div>
             <div id="paypalButton" class="col-7"></div>

@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
+import * as FileSaver from 'file-saver'
 import { render } from 'creditcardpayments/creditCardPayments';
+import { GoogleCalendar, ICalendar, CalendarOptions } from 'datebook';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
@@ -21,8 +23,10 @@ export class PaymentComponent implements OnInit {
     public router: Router) {
     const navigation = this.router.getCurrentNavigation();
     this.donationDetails = navigation!.extras.state;
+    if (!this.donationDetails) {
+      this.router.navigate(['donate']);
+    }
     console.log("Donation details: ", this.donationDetails);
-    
   }
 
   async ngOnInit() {
@@ -49,6 +53,36 @@ export class PaymentComponent implements OnInit {
         alert("success");
         this.onSubmit();
       }});
+  }
+
+  addToCalendar() {
+    const start = this.donationDetails.date.toString().substring(0, 15) + this.donationDetails.start.toString().substring(15, 21);
+    const end = this.donationDetails.date.toString().substring(0, 15) + this.donationDetails.end.toString().substring(15, 21);
+    const config : CalendarOptions = {
+      title: "Donateer for: " + this.donationDetails.name,
+      description: this.donationDetails.description,
+      start: new Date(start),
+      end: new Date(end)
+    };
+    const googleCalendar = new GoogleCalendar(config);
+    window.open(googleCalendar.render(), '_blank');
+  }
+
+  downloadCalendar() {
+    const start = this.donationDetails.date.toString().substring(0, 15) + this.donationDetails.start.toString().substring(15, 21);
+    const end = this.donationDetails.date.toString().substring(0, 15) + this.donationDetails.end.toString().substring(15, 21);
+    const config : CalendarOptions = {
+      title: "Donateer for: " + this.donationDetails.name,
+      description: this.donationDetails.description,
+      start: new Date(start),
+      end: new Date(end)
+    };
+    const iCalendar = new ICalendar(config);
+    const ics = iCalendar.render()
+    const blob = new Blob([ics], {
+      type: 'text/calendar'
+    });
+    FileSaver.saveAs(blob, 'donateer.ics');
   }
 
   async onSubmit() {

@@ -11,6 +11,8 @@ import { NavigationExtras, Router } from '@angular/router';
   styleUrls: ['./donate.component.scss']
 })
 export class DonateComponent implements OnInit {
+  name = "Society for the Prevention of Cruelty to Animals (SPCA)";
+  description = "The SPCA is not funded by the government. Relying mainly on kind donations from the public and fundraising to support the shelter and clinic, inspectorate work and animal rescue services, as well as other initiatives such as our foster care programme, sterilisation programme for community animals, and education and outreach efforts."
   today = new Date();
   date = new Date();
   startDate = new Date(); // start time
@@ -65,12 +67,13 @@ export class DonateComponent implements OnInit {
   async onSubmit(form: FormGroup) {
     let donation: NavigationExtras = {
       state: {
+        name: this.name,
+        description: this.description,
         date: this.date,
         start: this.startDate,
         donatedAmount: this.donatedAmount,
         duration: this.donatedTime,
-        end: this.endDate,
-        name: "TO BE DECIDED"
+        end: this.endDate
       }
     };
     this.router.navigate(['/payment'], donation);
